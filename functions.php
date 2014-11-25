@@ -1,5 +1,7 @@
 <?php
 
+include 'questions.php';
+
 add_action( 'wp_enqueue_scripts', 'enqueue_parent_theme_style' );
 function enqueue_parent_theme_style() {
     wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
@@ -42,7 +44,7 @@ function erg_admin_bar_login_menu( $wp_admin_bar ) {
 
 add_action('admin_menu', 'erg_admin_menu',1000);
 function erg_admin_menu() {
-	if ( current_user_can( 'admin' ) )
+	if ( current_user_can( 'manage_options' ) )
 		return;
 	remove_menu_page('jetpack');
 }
