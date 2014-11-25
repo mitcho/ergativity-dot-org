@@ -41,6 +41,26 @@ body {
 	left: 32%;
 }
 
+@media (max-width: 788px) {
+	.sidebar {
+		position: relative;
+	}
+	.content {
+		left: 0;
+	}
+}
+
 .blog-menu {
 	border-radius: 0;
+}
+
+#wp-admin-bar-register, #wp-admin-bar-login {
+	display: inline;
+}
+#wp-admin-bar-root-default > li {
+	display: inline !important;
+	padding-left: 5px !important;
+}
+#wp-admin-bar-root-default > li > a {
+	padding: 0px 8px 0px 7px !important;
 }
