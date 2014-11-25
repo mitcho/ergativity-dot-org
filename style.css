@@ -7,3 +7,40 @@
  Version:      1.0
 */
 
+.wrapper { 
+	position: relative;
+	width: 1160px;
+	height: auto;
+	min-height: 1000px; /* this should be fixed */
+/* 	max-width: 86%; */
+	margin: 0;
+	background: transparent;
+/* 	background-size: 68% auto; */
+}
+
+body {
+	background: url('images/1px-white.png') right repeat-y;
+	background-size: 68% auto;
+/* 	color: #555; */
+}
+
+.sidebar {
+	position: absolute;
+	float: none;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	color: #555;
+	background: #353E49;
+	margin: 0;
+	padding: 7.5% 0px;
+}
+.content {
+	float: none;
+/* 	position: absolute; */
+	left: 32%;
+}
+
+.blog-menu {
+	border-radius: 0;
+}
