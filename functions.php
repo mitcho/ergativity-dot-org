@@ -40,6 +40,17 @@ function erg_admin_bar_login_menu( $wp_admin_bar ) {
 			'href' => site_url( 'wp-login.php?action=register', 'login' )
 		) );
 	}
+	
+	$wp_admin_bar->remove_menu('wp-logo');
+}
+
+add_action( 'admin_bar_menu', 'erg_admin_bar_menu', 1000 );
+function erg_admin_bar_menu( $wp_admin_bar ) {
+	if ( current_user_can( 'edit_posts' ) )
+		return;
+
+	if ( !is_admin() )
+		$wp_admin_bar->remove_menu('site-name');
 }
 
 add_action('admin_menu', 'erg_admin_menu',1000);
