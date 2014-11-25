@@ -39,3 +39,11 @@ function erg_admin_bar_login_menu( $wp_admin_bar ) {
 		) );
 	}
 }
+
+add_action('admin_menu', 'erg_admin_menu',1000);
+function erg_admin_menu() {
+	if ( current_user_can( 'admin' ) )
+		return;
+	remove_menu_page('jetpack');
+}
+
