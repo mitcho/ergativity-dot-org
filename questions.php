@@ -27,8 +27,14 @@ function erg_init() {
 			'slug' => 'questions',
 			'with_front' => true
 		),
-		'has_archive' => true
+// 		'capability_type' => 'post',
+// 		'map_meta_cap' => true,
+		'has_archive' => true,
+		'supports' => array('title', 'editor', 'revisions')
 	) );
+	
+	$role = get_role( 'author' );
+	$role->add_cap( 'edit_others_posts' );
 }
 
 class ErgAnswer {
