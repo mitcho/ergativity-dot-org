@@ -50,8 +50,8 @@ class ErgAnswer {
 		echo "</tr>";
 	}
 
-	function visitor_print( $post_id ) {
-		return "<p><input type='radio' name='erg_answers[{$post_id}]' id='erg_answers-{$this->value}' value='{$this->value}' " . disabled( !is_user_logged_in(), true, false ) . "/> <label for='erg_answers-{$this->value}'>" . esc_html($this->label) . "</label></p>";
+	function visitor_print( $post_id, $current_value = false ) {
+		return "<p><input type='radio' name='erg_answer[{$post_id}]' class='erg_answer' data-post='{$post_id}' id='erg_answers-{$this->value}' value='{$this->value}' " . disabled( !is_user_logged_in(), true, false ) . ' ' . checked($this->value, $current_value, false) . "/> <label for='erg_answers-{$this->value}'>" . esc_html($this->label) . "</label></p>";
 	}
 }
 
@@ -134,12 +134,20 @@ function erg_answer_shortcode( $atts ) {
 			$return .= "<p><a href='" . esc_url(wp_login_url()) . "'>Log in</a> or <a href='" . esc_url(site_url( 'wp-login.php?action=register', 'login' )) . "'>create a new account</a></p>";
 		// @todo make these urls come back to the right page
 		$return .= "</div>";
+		$current_value = false;
+	} else {
+		wp_nonce_field( 'erg_answers', 'erg_answers_nonce' );
+		$user_answers = get_user_meta( get_current_user_id(), '_erg_answers', true );
+		if ( is_array($user_answers) && isset($user_answers[get_the_ID()]) )
+			$current_value = $user_answers[get_the_ID()];
+		else
+			$current_value = false;
 	}
 	
 	$return .= "<div class='answer'>";
 
 	foreach ($answers as $answer) {
-		$return .= (new ErgAnswer($answer))->visitor_print( get_the_ID() );
+		$return .= (new ErgAnswer($answer))->visitor_print( get_the_ID(), $current_value );
 	}
 	
 	$return .= "</div>";
@@ -152,3 +160,26 @@ function erg_lang_shortcode( $atts ) {
     return "your language";
 }
 
+add_action( 'wp_ajax_erg_submit', 'erg_submit' );
+function erg_submit() {
+	// Check if our nonce is set.
+	if ( ! isset( $_POST['nonce'] ) ) {
+		return;
+	}
+
+	// Verify that the nonce is valid.
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'erg_answers' ) ) {
+		return;
+	}
+
+	$answers = get_user_meta( get_current_user_id(), '_erg_answers', true );
+	if ( !is_array($answers) )
+		$answers = array();
+	$answers[(int) $_POST['id']] = $_POST['value'];
+	// seems like deleting and then adding is the most reliable way?
+	delete_user_meta( get_current_user_id(), '_erg_answers' );
+	add_user_meta( get_current_user_id(), '_erg_answers', $answers, true );
+
+	echo '1';
+	exit;
+}

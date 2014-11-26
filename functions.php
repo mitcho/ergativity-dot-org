@@ -7,6 +7,16 @@ function enqueue_parent_theme_style() {
     wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css', array('dashicons') );
 }
 
+add_action( 'wp_enqueue_scripts', 'erg_scripts' );
+function erg_scripts() {
+	wp_enqueue_script(
+		'erg',
+		get_stylesheet_directory_uri() . '/js/erg.js',
+		array( 'jquery' )
+	);
+	wp_localize_script( 'erg', 'WP_AJAX', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+}
+
 // always show admin bar
 // based on code by scribu
 add_action( 'show_admin_bar', '__return_true', 999 );
