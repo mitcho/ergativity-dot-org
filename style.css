@@ -64,3 +64,34 @@ body {
 #wp-admin-bar-root-default > li > a {
 	padding: 0px 8px 0px 7px !important;
 }
+
+/* new styles for the questionnaire */
+
+.warning, .answer {
+	margin-bottom: 1em;
+	border-radius: 5px;
+	padding: 10px;
+	color: #333;
+}
+
+.warning {
+	border: 3px solid #DA5F5B;
+	background: #F67773;
+}
+.warning a, .warning a:hover, .warning a:active, .warning a:visited {
+	color: black;
+}
+
+.answer {
+	border: 3px solid #ACBCCE;
+	background: #BEC9D5;
+}
+.answer p {
+	margin-bottom: 0.3em;
+}
+.answer input {
+	margin-right: 1em;
+}
+.answer label {
+	font-size: 1rem;
+}
