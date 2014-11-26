@@ -15,9 +15,17 @@
 				<div class="post-content">
 
 	<ul id='questions'>
-	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+	<?php 
 
-	    <li><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_title(); ?></a></li>
+	$answers = get_user_meta( get_current_user_id(), '_erg_answers', true );
+	if ( !is_array($answers) )
+		$answers = array();
+
+	if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+	    <li
+		<?php if ( isset($answers[get_the_ID()]) ) echo ' class="answered"';?>
+	    ><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title(); ?>"><?php the_title(); ?></a></li>
 
 	<?php endwhile; endif; ?>
 	</ul>
