@@ -4,7 +4,7 @@ include 'questions.php';
 
 add_action( 'wp_enqueue_scripts', 'enqueue_parent_theme_style' );
 function enqueue_parent_theme_style() {
-    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
+    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css', array('dashicons') );
 }
 
 // always show admin bar
@@ -60,3 +60,11 @@ function erg_admin_menu() {
 	remove_menu_page('jetpack');
 }
 
+add_filter('pre_get_posts', 'erg_pre_get_posts');
+function erg_pre_get_posts($query) {
+	if ($query->is_post_type_archive('question')) {
+		$query->set( 'posts_per_page', -1 );
+		$query->set( 'orderby', 'post_id' );
+		$query->set( 'order', 'asc' );
+	}
+}
